@@ -27,12 +27,15 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Build release binary with optimizations - explicitly target x86_64
-RUN cargo build --release --target x86_64-unknown-linux-gnu --target-dir /build
+RUN cargo build --release --target-dir /build
 
-# The output binary will be at /build/release/x86_64-unknown-linux-gnu/i2pd-exporter
+# The output binary will be at /build/release/*/i2pd-exporter
+# and we move it for easy stage copying (see commands that follow
+# this one)
+RUN mv /build/release/x86_64-unknown-linux-gnu/i2pd-exporter /bin/i2pd-exporter
 
 FROM debian:12 AS base
-COPY --from=build /build/release/x86_64-unknown-linux-gnu/i2pd-exporter /bin/i2pd-exporter
+COPY --from=build /bin/i2pd-exporter /bin/i2pd-exporter
 
 RUN chmod +x /bin/i2pd-exporter
 ENTRYPOINT /bin/./i2pd-exporter
