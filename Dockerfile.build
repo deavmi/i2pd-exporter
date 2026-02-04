@@ -1,4 +1,4 @@
-FROM debian:12
+FROM debian:12 AS build
 
 # Install Rust and dependencies
 RUN apt-get update && apt-get install -y \
@@ -30,3 +30,11 @@ COPY . .
 RUN cargo build --release --target x86_64-unknown-linux-gnu --target-dir /build
 
 # The output binary will be at /build/release/x86_64-unknown-linux-gnu/i2pd-exporter
+
+FROM debian:12 AS base
+COPY --from=build /build/release/x86_64-unknown-linux-gnu/i2pd-exporter /bin/i2pd-exporter
+
+RUN chmod +x /bin/i2pd-exporter
+ENTRYPOINT /bin/./i2pd-exporter
+
+
