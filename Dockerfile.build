@@ -33,7 +33,7 @@ RUN cargo build --release --target-dir /build
 # and we move it for easy stage copying (see commands that follow
 # this one)
 RUN ls /build/release/ && sleep 1
-RUN mv /build/release/*/i2pd-exporter /bin/i2pd-exporter
+RUN mv /build/release/i2pd-exporter /bin/i2pd-exporter
 
 FROM debian:12 AS base
 COPY --from=build /bin/i2pd-exporter /bin/i2pd-exporter
