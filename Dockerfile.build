@@ -37,7 +37,10 @@ RUN mv /build/release/x86_64-unknown-linux-gnu/i2pd-exporter /bin/i2pd-exporter
 FROM debian:12 AS base
 COPY --from=build /bin/i2pd-exporter /bin/i2pd-exporter
 
-RUN chmod +x /bin/i2pd-exporter
-ENTRYPOINT /bin/./i2pd-exporter
+COPY run.sh /run.sh
+RUN chmod +x /run.sh
+ENTRYPOINT /./run.sh
+#RUN chmod +x /bin/i2pd-exporter
+#ENTRYPOINT /bin/./i2pd-exporter
 
 
