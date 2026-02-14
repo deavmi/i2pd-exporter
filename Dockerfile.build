@@ -32,7 +32,7 @@ RUN cargo build --release --target-dir /build
 # The output binary will be at /build/release/*/i2pd-exporter
 # and we move it for easy stage copying (see commands that follow
 # this one)
-RUN ls /build/release/ && sleep 600
+RUN ls /build/release/ && sleep 1
 RUN mv /build/release/*/i2pd-exporter /bin/i2pd-exporter
 
 FROM debian:12 AS base
